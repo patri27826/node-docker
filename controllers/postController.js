@@ -49,6 +49,7 @@ exports.createPost = async (req, res, next) => {
             },
         })
     } catch (e) {
+        console.log(e)
         res.status(400).json({
             status: 'fail',
         })
@@ -70,7 +71,7 @@ exports.updatePost = async (req, res, next) => {
             },
         })
     } catch (e) {
-        res.status(404).json({
+        res.status(400).json({
             status: 'fail',
         })
     }  
@@ -83,12 +84,9 @@ exports.deletePost = async (req, res, next) => {
 
         res.status(200).json({
             status: 'success',
-            data: {
-                post,
-            },
         })
     } catch (e) {
-        res.status(404).json({
+        res.status(400).json({
             status: 'fail',
         })
     }  

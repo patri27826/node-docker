@@ -1,6 +1,9 @@
 const express = require("express")
 const mongoose = require('mongoose');
 const { MONGO_USER, MONGO_PASSWORD, MONGO_IP, MONGO_PORT } = require("./config/config")
+
+const postRouter = require("./routes/postRoutes")
+
 const app = express()
 
 const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`
@@ -12,16 +15,22 @@ const connectWithRetry = () => {
             useUnifiedTopology: true,
         })
         .then( () => console.log("successfully connected to mongo"))
-        .catch( (e) => console.error(e));
-
-    app.get("/", (req,res) => {
-        res.send("<h2>Welcome~~~~1213bbbbbb21321~</h2>")
-    })
-    .then(() => console.log("successfully connected to mongo"))
-    .catch((e) => {
-        setTimeout(connectWithRetry, 5000)
-    })
+        .catch( (e) => {
+            console.error(e)
+            setTimeout(connectWithRetry, 5000)
+        });
 }
+
+connectWithRetry()
+
+app.use(express.json())
+
+app.get("/", (req, res) => {
+    res.send("<h2>Welcome~~~~1213bbbbbb21321~</h2>")
+})
+
+//localhost:3000/api/v1/post/
+app.use("/api/v1/posts", postRouter)
 
 
 const port = process.env.PORT || 3000
