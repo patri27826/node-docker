@@ -35,7 +35,7 @@ exports.getOnePosts = async (req, res, next) => {
             status: 'fail',
         })
     }  
-}
+} 
 
 exports.createPost = async (req, res, next) => {
 
