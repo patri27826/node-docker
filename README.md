@@ -8,3 +8,5 @@ down : docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 update node-app : docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --no-deps node-app
 
+force recreate node-app : docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --force-recreate --no-deps node-app
+
