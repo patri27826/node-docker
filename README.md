@@ -17,6 +17,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --force-recreate --no-deps node-app 
 ```
 ### Docker WorkFlow with AWS,Github
+![Workflow](/resource/1.png?raw=true "Workflow")
 1. #### Create image on localhost
 
 2. #### Push image to Dockerhub, Push code change to Github
