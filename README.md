@@ -53,3 +53,10 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 // only rebuild the node-app image
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build --no-deps node-app  
 ```
+
+#### Docker automation with Watchtower:
+```
+// app_node-app_1 is container name
+// WATCHTOWER_POLL_INTERVAL is time to check if image is update
+docker run -d --name watchtower -e WATCHTOWER_TRACE=true -e WATCHTOWER_DEBUG=true -e WATCHTOWER_POLL_INTERVAL=50 -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower app_node-app_1 
+```
