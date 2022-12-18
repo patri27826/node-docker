@@ -18,6 +18,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --force-re
 ```
 ### Docker WorkFlow with AWS, Github
 ![workflow](/resource/1.png?raw=true "Docker flow")
+Resource: Sanjeev Thiyagarajan on Youtube
 1. #### Create image on localhost
 
 2. #### Push image to Dockerhub, Push code change to Github
