@@ -66,3 +66,45 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml build node-app
 // push the specific node-app image to Dockerhub
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml push node-app 
 ```
+
+#### Docker Swarm:
+```
+// Build the Swarm
+docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml myapp
+
+$ docker stack ls
+NAME      SERVICES   ORCHESTRATOR
+myapp     4          Swarm
+
+$ docker stack services myapp
+ID             NAME             MODE         REPLICAS   IMAGE                        PORTS
+np80yt9509tx   myapp_mongo      replicated   1/1        mongo:latest                 
+wey6gk4ih1an   myapp_nginx      replicated   1/1        nginx:stable-alpine          *:80->80/tcp, *:3000->80/tcp
+pdtx1rjrvuz7   myapp_node-app   replicated   8/8        patri27826/node-app:latest   
+ymgz8fpr0xwr   myapp_redis      replicated   1/1        redis:latest 
+
+$ docker stack ps myapp
+ID             NAME                IMAGE                        NODE               DESIRED STATE   CURRENT STATE           ERROR                       PORTS
+3tr3eou2x12u   myapp_mongo.1       mongo:latest                 ip-172-31-38-211   Running         Running 3 minutes ago                               
+89ofszf63fds   myapp_nginx.1       nginx:stable-alpine          ip-172-31-38-211   Running         Running 2 minutes ago                               
+7m9tplfx5n2s    \_ myapp_nginx.1   nginx:stable-alpine          ip-172-31-38-211   Shutdown        Failed 3 minutes ago    "task: non-zero exit (1)"   
+ramqx6s07l4j   myapp_node-app.1    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+g4aj9g46ayn5   myapp_node-app.2    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+v0sjv4xqj02m   myapp_node-app.3    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+uyy0ets9k17l   myapp_node-app.4    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+9bc8jwb0if71   myapp_node-app.5    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+7qu2x1s1gjba   myapp_node-app.6    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+pg8mkskwq1nl   myapp_node-app.7    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+yaw699sqm460   myapp_node-app.8    patri27826/node-app:latest   ip-172-31-38-211   Running         Running 2 minutes ago                               
+94qy28f9hqo4   myapp_redis.1       redis:latest                 ip-172-31-38-211   Running         Running 2 minutes ago
+
+// step to update
+// 1. build the image 
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+
+// 2. push the image to DockerHub
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml push 
+
+//3. Execute the update on Server
+docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml myapp
+```
